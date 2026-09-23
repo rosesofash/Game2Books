@@ -1,15 +1,121 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8">
-    <title>My First Webpage</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Game2Books</title>
+    <meta name="description" content="Pick a game you love and find books with a similar story." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/styles.css" />
+    <script type="module" src="js/app.js"></script>
   </head>
 
   <body>
-    <h1>hello earth the world says hello</h1>
-    <h2>yip and yap</h2>
-    <h4>eddie when do i get to push</h4>
-    <p>omg does this shiiiii work</p>
+    <div class="bg-glow" aria-hidden="true"></div>
 
+    <header class="site-header">
+      <a class="logo" href="./">Game<span>2</span>Books</a>
+      <nav class="site-nav">
+        <button class="btn btn-ghost" id="my-list-btn" type="button">
+          My List <span class="badge" id="saved-count">0</span>
+        </button>
+        <button class="btn" id="account-btn" type="button">Log in</button>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero">
+        <h1>Loved the story? <span class="accent-text">Read the next one.</span></h1>
+        <p>Spin the wheel, pick a game, and we'll find books with the same kind of story.</p>
+      </section>
+
+      <!-- 3D game wheel -->
+      <section class="carousel" aria-label="Choose a game">
+        <button class="carousel-nav" id="prev-game" type="button" aria-label="Previous game">‹</button>
+        <div class="carousel-stage" id="carousel-stage" role="listbox" tabindex="0" aria-label="Games"></div>
+        <button class="carousel-nav" id="next-game" type="button" aria-label="Next game">›</button>
+      </section>
+      <p class="carousel-hint">
+        <span id="front-title" class="front-title"></span>
+        <span class="muted">Scroll, drag, or use ← → · click to choose</span>
+      </p>
+
+      <!-- Selected game + its book recommendations -->
+      <section class="game-detail" id="game-detail" hidden aria-live="polite">
+        <div class="game-detail__top">
+          <div class="game-detail__cover" id="detail-cover"></div>
+          <div class="game-detail__info">
+            <p class="eyebrow" id="detail-meta"></p>
+            <h2 id="detail-title"></h2>
+            <p class="synopsis" id="detail-synopsis"></p>
+            <dl class="tag-groups" id="detail-tags"></dl>
+          </div>
+        </div>
+
+        <div class="books-header">
+          <h3>If you liked <span id="books-for"></span>, read…</h3>
+          <p class="muted" id="books-status"></p>
+        </div>
+        <div class="book-row" id="book-row"></div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      Book data from <a href="https://openlibrary.org" target="_blank" rel="noopener">Open Library</a> ·
+      Game art from <a href="https://en.wikipedia.org" target="_blank" rel="noopener">Wikipedia</a>
+    </footer>
+
+    <!-- Book popup -->
+    <dialog class="modal book-modal" id="book-modal" aria-labelledby="book-modal-title">
+      <button class="modal-close" type="button" data-close aria-label="Close">×</button>
+      <div class="book-modal__body">
+        <img class="book-modal__cover" id="book-modal-cover" alt="" />
+        <div class="book-modal__info">
+          <h2 id="book-modal-title"></h2>
+          <p class="book-modal__author" id="book-modal-author"></p>
+          <dl class="stats" id="book-modal-stats"></dl>
+          <div class="chips" id="book-modal-tags"></div>
+          <div class="book-modal__desc" id="book-modal-desc"></div>
+          <div class="book-modal__actions">
+            <button class="btn btn-primary" id="save-book-btn" type="button">♡ Save to my list</button>
+            <div class="store-links" id="book-modal-links"></div>
+          </div>
+        </div>
+      </div>
+    </dialog>
+
+    <!-- Login (demo only) -->
+    <dialog class="modal small-modal" id="login-modal" aria-labelledby="login-title">
+      <button class="modal-close" type="button" data-close aria-label="Close">×</button>
+      <form id="login-form" method="dialog">
+        <h2 id="login-title">Log in</h2>
+        <p class="muted" id="login-reason">Demo login: any username works and nothing is sent anywhere.</p>
+        <label>
+          Username
+          <input name="username" required autocomplete="username" maxlength="40" />
+        </label>
+        <label>
+          Password
+          <input name="password" type="password" autocomplete="current-password" placeholder="(not checked yet)" />
+        </label>
+        <button class="btn btn-primary" type="submit">Log in</button>
+      </form>
+    </dialog>
+
+    <!-- Saved books -->
+    <dialog class="modal drawer" id="list-modal" aria-labelledby="list-title">
+      <button class="modal-close" type="button" data-close aria-label="Close">×</button>
+      <div class="modal-inner">
+        <h2 id="list-title">My reading list</h2>
+        <div id="saved-list"></div>
+      </div>
+    </dialog>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
   </body>
 </html>
